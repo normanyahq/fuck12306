@@ -13,6 +13,7 @@ import urllib2
 import re
 import json
 import os
+import datetime
 # hack CERTIFICATE_VERIFY_FAILED
 # https://github.com/mtschirs/quizduellapi/issues/2
 import ssl
@@ -44,7 +45,7 @@ if __name__ == '__main__':
     image_count = 0
     while image_count < 100000:
         try:
-            print ("getting image: %d" % image_count)
+            print ("getting image: %d, %s" % (image_count, datetime.datetime.now()))
             if get_img("download", str(image_count+1)):
                 image_count += 1
         except IOError:
