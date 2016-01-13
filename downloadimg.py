@@ -32,12 +32,11 @@ def get_img(dirname="download", filename="tmp.jpg"):
     if not os.path.exists(dirname):
         os.makedirs(dirname)
     print ("image size:%d"%len(raw))
+    with open(os.path.join(dirname, filename), 'wb') as fp:
+        fp.write(raw)
     if len(raw) < 1500:
         print ("invalid image")
         return False
-    with open(os.path.join(dirname, filename), 'wb') as fp:
-        fp.write(raw)
-
     return True
 
 
@@ -46,7 +45,7 @@ if __name__ == '__main__':
     while image_count < 100000:
         try:
             print ("getting image: %d, %s" % (image_count, datetime.datetime.now()))
-            if get_img("download", str(image_count+1)):
+            if get_img("download", str(image_count+1)+".jpg"):
                 image_count += 1
         except IOError:
             print ("failed to get image.")
