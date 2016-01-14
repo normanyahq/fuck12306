@@ -14,6 +14,7 @@ import re
 import json
 import os
 import datetime
+import random
 # hack CERTIFICATE_VERIFY_FAILED
 # https://github.com/mtschirs/quizduellapi/issues/2
 import ssl
@@ -23,23 +24,24 @@ if hasattr(ssl, '_create_unverified_context'):
 
 UA = "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_10_2) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/41.0.2272.89 Safari/537.36"
 
-pic_url = "https://kyfw.12306.cn/otn/passcodeNew/getPassCodeNew?module=login&rand=sjrand&0.21191171556711197"
+pic_url = "https://kyfw.12306.cn/otn/passcodeNew/getPassCodeNew?module=login&rand=sjrand&0.%d"
 
 
 def valid_image(raw_data):
     return False if len(raw_data) < 1500 or "<html>" in raw_data else True
 
 def get_img(dirname="download", filename="tmp.jpg"):
-    resp = urllib2.urlopen(pic_url, timeout=10)
+    resp = urllib2.urlopen(pic_url % (random.randrange(10**18, 10**19)), timeout=10)
     raw = resp.read()
     if not os.path.exists(dirname):
         os.makedirs(dirname)
     print ("image size:%d"%len(raw))
     with open(os.path.join(dirname, filename), 'wb') as fp:
         fp.write(raw)
-    if valid_image(raw):
+    if not valid_image(raw):
         print ("invalid image")
         return False
+        
     return True
 
 
