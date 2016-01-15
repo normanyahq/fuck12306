@@ -28,7 +28,6 @@ pic_url = "https://kyfw.12306.cn/otn/passcodeNew/getPassCodeNew?module=login&ran
 
 
 def valid_image(raw_data):
-    print raw_data
     return False if len(raw_data) < 1500 or "</html>" in raw_data else True
 
 def get_img(dirname="download", filename="tmp.jpg"):
