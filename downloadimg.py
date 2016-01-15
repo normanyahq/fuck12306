@@ -28,7 +28,8 @@ pic_url = "https://kyfw.12306.cn/otn/passcodeNew/getPassCodeNew?module=login&ran
 
 
 def valid_image(raw_data):
-    return False if len(raw_data) < 1500 or "<html>" in raw_data else True
+    print raw_data
+    return False if len(raw_data) < 1500 or "</html>" in raw_data else True
 
 def get_img(dirname="download", filename="tmp.jpg"):
     resp = urllib2.urlopen(pic_url % (random.randrange(10**18, 10**19)), timeout=10)
@@ -36,12 +37,11 @@ def get_img(dirname="download", filename="tmp.jpg"):
     if not os.path.exists(dirname):
         os.makedirs(dirname)
     print ("image size:%d"%len(raw))
-    with open(os.path.join(dirname, filename), 'wb') as fp:
-        fp.write(raw)
     if not valid_image(raw):
         print ("invalid image")
         return False
-        
+    with open(os.path.join(dirname, filename), 'wb') as fp:
+        fp.write(raw)
     return True
 
 
